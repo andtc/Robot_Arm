@@ -9,7 +9,7 @@
 
 # ## Libraries
 
-# In[139]:
+# In[2]:
 
 
 import pandas as pd
@@ -21,7 +21,7 @@ import sympy as sym
 
 # Define constants such as gravity
 
-# In[140]:
+# In[3]:
 
 
 g=9.81 #m/s^2 gravity
@@ -31,7 +31,7 @@ g=9.81 #m/s^2 gravity
 
 # Define Weights of Motors
 
-# In[141]:
+# In[4]:
 
 
 NEMA23=0.8#kg
@@ -43,7 +43,7 @@ NEMA17=0.24#kg
 
 # ## RLD-50
 
-# In[142]:
+# In[5]:
 
 
 RLD50W=2.05#kg
@@ -51,7 +51,7 @@ RLD50W=2.05#kg
 
 # ## RLD-30
 
-# In[143]:
+# In[6]:
 
 
 RLD30W=0.79#kg
@@ -59,7 +59,7 @@ RLD30W=0.79#kg
 
 # ## RLD-20
 
-# In[144]:
+# In[7]:
 
 
 RLD20W=0.41#kg
@@ -71,7 +71,7 @@ RLD20W=0.41#kg
 
 # ## Joint 1
 
-# In[145]:
+# In[8]:
 
 
 J1=RLD50W*g
@@ -79,7 +79,7 @@ J1=RLD50W*g
 
 # ## Joint 2
 
-# In[146]:
+# In[9]:
 
 
 AS2=0.308#kg Arm Segment mass
@@ -91,7 +91,7 @@ x5=18.98#cm RLD50 to center of mass of arm segment
 
 # ## Joint 3
 
-# In[147]:
+# In[10]:
 
 
 AS3=0.518#kg arm segment mass
@@ -103,7 +103,7 @@ x4=10.8#cm RLD30 to Center of mass of arm segments
 
 # ## Joint 4
 
-# In[148]:
+# In[11]:
 
 
 AS4=0.093#kg Arm segment mass
@@ -115,7 +115,7 @@ x3=7.5#cm RLD20 to Center of mass of arm segments
 
 # ## Joint 5
 
-# In[149]:
+# In[12]:
 
 
 AS5=0.04#kg Arm segment mass
@@ -129,7 +129,7 @@ L5=6.5#cm Length from Motor to tip of End Effector
 
 # ## Load
 
-# In[150]:
+# In[13]:
 
 
 ml=2#kg
@@ -138,7 +138,7 @@ Fl=ml*g#N
 
 # ## Torque Calculations
 
-# In[151]:
+# In[14]:
 
 
 T5=(We*x1+A5*x2+Fl*L5)/100
@@ -147,9 +147,28 @@ T3=(We*(L3+L4+x1)+(A5*(L3+L4+x2))+(J5*(L4+L3))+(A4*(L3+x3))+(Fl*(L5+L4+L3)))/100
 T2=(We*(L2+L3+L4+x1)+(A5*(L2+L3+L4+x2))+(J5*(L2+L4+L3))+(A4*(L2+L3+x3))+(Fl*(L2+L5+L4+L3)))/100
 
 
-# In[152]:
+# In[15]:
 
 
 T={ 'N-m': [round(T2,2),round(T3,2),round(T4,2),round(T5,2)]}
 pd.DataFrame(data=T, index=['DOF2', 'DOF3', 'DOF4', 'DOF5'])
+
+
+# ## Arm Weights
+
+# In[17]:
+
+
+W1=J1+J2+J3+J4+J5+A2+A3+A4+A5+We
+W2=J2+J3+J4+J5+A2+A3+A4+A5+We
+W3=J3+J4+J5+A3+A4+A5+We
+W4=J4+J5+A4+A5+We
+W5=J5+A5+We
+
+
+# In[21]:
+
+
+T={ 'N': [round(W1,2),round(W2,2),round(W3,2),round(W4,2),round(W5,2)],'kg': [round(W1/g,2),round(W2/g,2),round(W3/g,2),round(W4/g,2),round(W5/g,2)]}
+pd.DataFrame(data=T,columns=['N','kg'], index=['DOF1','DOF2', 'DOF3', 'DOF4', 'DOF5'])
 
